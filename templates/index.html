@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Uber Customer Management</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+
+<!-- UBER TITLE -->
+<div class="hero">
+    <h1 class="uber-text">UBER</h1>
+</div>
+
+<div class="container">
+    <h2>Uber Customer Dashboard</h2>
+
+    <!-- FORM -->
+    <form action="{{ '/update' if edit_data else '/add' }}" method="POST" class="form">
+
+        <div class="input-box">
+            <i class="fa fa-user"></i>
+            <input type="text" name="name" placeholder="Name" required 
+                   value="{{ edit_data.name if edit_data else '' }}">
+        </div>
+
+        <div class="input-box">
+            <i class="fa fa-phone"></i>
+            <input type="text" name="mobile" placeholder="Mobile" required 
+                   value="{{ edit_data.mobile if edit_data else '' }}" 
+                   {{ 'readonly' if edit_data else '' }}>
+        </div>
+
+        <div class="input-box">
+            <i class="fa fa-money-bill"></i>
+            <input type="number" name="amount" placeholder="Amount" required 
+                   value="{{ edit_data.amount if edit_data else '' }}">
+        </div>
+
+        <div class="input-box">
+            <i class="fa fa-location-dot"></i>
+            <input type="text" name="location" placeholder="Location" required 
+                   value="{{ edit_data.location if edit_data else '' }}">
+        </div>
+
+        <button type="submit">
+            {{ 'Update Customer' if edit_data else 'Add Customer' }}
+        </button>
+
+    </form>
+
+    <!-- TABLE -->
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Mobile</th>
+            <th>Amount</th>
+            <th>Location</th>
+            <th>Actions</th>
+        </tr>
+
+        {% for c in customers %}
+        <tr>
+            <td>{{ c.name }}</td>
+            <td>{{ c.mobile }}</td>
+            <td>{{ c.amount }}</td>
+            <td>{{ c.location }}</td>
+            <td>
+                <a href="/edit/{{ c.mobile }}" class="edit">Edit</a>
+                <a href="/delete/{{ c.mobile }}" class="delete">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+</div>
+
+</body>
+</html>
